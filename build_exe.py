@@ -11,7 +11,7 @@ from pathlib import Path
 
 def build_exe():
     """
-Создает EXE файл из проекта
+    Создает EXE файл из проекта
     """
     print("="*60)
     print("FNF BotPlay GUI - EXE Builder")
@@ -29,19 +29,16 @@ def build_exe():
     
     # Команда для PyInstaller
     command = [
-        "pyinstaller",
+        sys.executable,
+        "-m",
+        "PyInstaller",
         "--name=FNF_BotPlay_GUI",
         "--onefile",
         "--windowed",
-        "--icon=assets/icon.ico",
         "--add-data=config.json:.",
-        "--hidden-import=PyQt5",
-        "--hidden-import=loguru",
-        "--hidden-import=pydantic",
-        "--hidden-import=PIL",
-        "--hidden-import=cv2",
-        "--hidden-import=numpy",
-        "--hidden-import=pynput",
+        "--hidden-import=PyQt5.QtCore",
+        "--hidden-import=PyQt5.QtGui",
+        "--hidden-import=PyQt5.QtWidgets",
         "--collect-all=PyQt5",
         "--noupx",
         "--distpath=dist",
@@ -59,6 +56,9 @@ def build_exe():
         return True
     except subprocess.CalledProcessError as e:
         print(f"\n[!] Ошибка при сборке EXE: {e}")
+        return False
+    except Exception as e:
+        print(f"\n[!] Непредвиденная ошибка: {e}")
         return False
 
 
